@@ -1,13 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+svg {
+  @apply w-full h-full;
+}
+circle,
+rect {
+  cursor: move;
+  stroke: black;
+}
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background-image: linear-gradient(
+      to right,
+      rgb(223, 218, 218) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgb(223, 218, 218) 1px, transparent 1px);
+  background-size: 60px 60px;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.selection-area {
+  background: rgba(46, 115, 252, 0.11);
+  border: 2px solid rgba(98, 155, 255, 0.81);
+  border-radius: 0.1em;
+}
+nav {
+  @apply p-5  bg-sky-700  flex justify-evenly text-white text-lg text-center items-center;
+}
+
+input[type="range"] {
+  @apply max-w-[8rem];
+}
+
+input[type="color"] {
+  @apply h-10 w-10 rounded-sm cursor-pointer border-none appearance-none bg-transparent;
+}
+
+input[type="color"]::-webkit-color-swatch {
+  @apply rounded-lg border-none;
+}
+
+input[type="color"]::-moz-color-swatch {
+  @apply rounded-lg border-none;
+}
+
+.wrapper {
+  @apply flex justify-center text-center items-center align-middle gap-4;
+}
+
+.wrapper div {
+  @apply flex flex-col items-center gap-2;
+}
+
+span {
+  @apply cursor-crosshair;
+}
+
+*:focus {
+  @apply outline-0;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 rounded-3xl;
 }
