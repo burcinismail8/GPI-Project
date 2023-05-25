@@ -11,7 +11,7 @@ function App() {
   const [rotate, setRotate] = useState(0);
   const [size, setSize] = useState(150);
   const [opacity, setOpacity] = useState(1);
-  const [color, setColor] = useState("#1ab6cb");
+  const [color, setColor] = useState("#509bed");
   const [allCreatedFigures, setAllCreatedFigures] = useState([]);
   const [selectedFigure, setSelectedFigure] = useState({});
   const handleChange = (event) => {
@@ -34,7 +34,14 @@ function App() {
   };
 
   const deleteFigure = () => {
-    console.log(selectedFigure.id);
+    let newArr = allCreatedFigures.slice(0);
+    const i = allCreatedFigures.findIndex((el) => el.id === selectedFigure.id);
+    if (i === -1) {
+      return;
+    }
+    newArr.splice(i, 1);
+    setAllCreatedFigures(newArr);
+    setSelectedFigure({});
   };
 
   return (
@@ -124,9 +131,11 @@ function App() {
         <span className="w-[75%] lg:w-[90%]">
           <svg>
             {allCreatedFigures.map((currFigure) => {
+              console.log(selectedFigure.id === currFigure.id);
               if (currFigure.type === "Circle")
                 return (
                   <circle
+                    key={currFigure.id}
                     id={currFigure.id}
                     name={currFigure.name}
                     isEditing={currFigure.isEditing}
@@ -139,26 +148,27 @@ function App() {
                     onClick={() => {
                       setSelectedFigure(currFigure);
                     }}
+                    strokeWidth={currFigure.id === selectedFigure.id ? 2 : 0.5}
                   />
                 );
               else if (currFigure.type === "Rectangle") {
                 return (
-                  <span className="border-4">
-                    <rect
-                      id={currFigure.id}
-                      name={currFigure.name}
-                      x={currFigure.x}
-                      y={currFigure.y}
-                      height={currFigure.size}
-                      width={currFigure.size}
-                      fill={currFigure.color}
-                      opacity={currFigure.opacity}
-                      transform={`rotate(${currFigure.rotate} ${currFigure.x} ${currFigure.y})`}
-                      onClick={() => {
-                        setSelectedFigure(currFigure);
-                      }}
-                    />
-                  </span>
+                  <rect
+                    key={currFigure.id}
+                    id={currFigure.id}
+                    name={currFigure.name}
+                    x={currFigure.x}
+                    y={currFigure.y}
+                    height={currFigure.size}
+                    width={currFigure.size}
+                    fill={currFigure.color}
+                    opacity={currFigure.opacity}
+                    transform={`rotate(${currFigure.rotate} ${currFigure.x} ${currFigure.y})`}
+                    onClick={() => {
+                      setSelectedFigure(currFigure);
+                    }}
+                    strokeWidth={currFigure.id === selectedFigure.id ? 2 : 0.5}
+                  />
                 );
               }
             })}
