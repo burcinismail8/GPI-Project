@@ -5,16 +5,36 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import Slider from "@mui/material/Slider";
 import { useState } from "react";
 function App() {
   const [figure, setFigure] = useState("Circle");
   const [rotate, setRotate] = useState(0);
-  const [size, setSize] = useState(50);
+  const [size, setSize] = useState(150);
   const [opacity, setOpacity] = useState(1);
   const [color, setColor] = useState("#1ab6cb");
+  const [allCreatedFigures, setAllCreatedFigures] = useState([]);
+  const [selectedFigure, setSelectedFigure] = useState({});
   const handleChange = (event) => {
     setFigure(event.target.value);
+  };
+  const addFigure = () => {
+    const newFigure = {
+      type: figure,
+      id: Date.now(),
+      name: "Figure " + (allCreatedFigures.length + 1),
+      x: Math.floor(Math.random() * (window.innerWidth - 100 * 2)) + 30,
+      y: Math.floor(Math.random() * (window.innerHeight - 100 * 2)) + 10,
+      size: size,
+      color: color,
+      opacity: opacity,
+      rotate: rotate,
+      isEditing: false,
+    };
+    setAllCreatedFigures([...allCreatedFigures, newFigure]);
+  };
+
+  const deleteFigure = () => {
+    console.log(selectedFigure.id);
   };
 
   return (
@@ -86,8 +106,10 @@ function App() {
               </Select>
             </FormControl>
           </Box>
-          <Button variant="contained">Add</Button>
-          <Button variant="contained" color="error">
+          <Button variant="contained" onClick={addFigure}>
+            Add
+          </Button>
+          <Button variant="contained" color="error" onClick={deleteFigure}>
             Delete
           </Button>
           <Button variant="contained" color="success">
@@ -98,6 +120,51 @@ function App() {
           </Button>
         </div>
       </nav>
+      <div className="flex justify-center h-[70%] lg:h-[90%]">
+        <span className="w-[75%] lg:w-[90%]">
+          <svg>
+            {allCreatedFigures.map((currFigure) => {
+              if (currFigure.type === "Circle")
+                return (
+                  <circle
+                    id={currFigure.id}
+                    name={currFigure.name}
+                    isEditing={currFigure.isEditing}
+                    cx={currFigure.x}
+                    cy={currFigure.y}
+                    r={currFigure.size / 2}
+                    fill={currFigure.color}
+                    opacity={currFigure.opacity}
+                    transform={`rotate(${currFigure.rotate} ${currFigure.x} ${currFigure.y})`}
+                    onClick={() => {
+                      setSelectedFigure(currFigure);
+                    }}
+                  />
+                );
+              else if (currFigure.type === "Rectangle") {
+                return (
+                  <span className="border-4">
+                    <rect
+                      id={currFigure.id}
+                      name={currFigure.name}
+                      x={currFigure.x}
+                      y={currFigure.y}
+                      height={currFigure.size}
+                      width={currFigure.size}
+                      fill={currFigure.color}
+                      opacity={currFigure.opacity}
+                      transform={`rotate(${currFigure.rotate} ${currFigure.x} ${currFigure.y})`}
+                      onClick={() => {
+                        setSelectedFigure(currFigure);
+                      }}
+                    />
+                  </span>
+                );
+              }
+            })}
+          </svg>
+        </span>
+      </div>
     </div>
   );
 }
