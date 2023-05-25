@@ -1,75 +1,101 @@
 import "./App.css";
-
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import Slider from "@mui/material/Slider";
+import { useState } from "react";
 function App() {
+  const [figure, setFigure] = useState("Circle");
+  const [rotate, setRotate] = useState(0);
+  const [size, setSize] = useState(50);
+  const [opacity, setOpacity] = useState(1);
+  const [color, setColor] = useState("#1ab6cb");
+  const handleChange = (event) => {
+    setFigure(event.target.value);
+  };
+
   return (
-    <div class="h-screen">
-      <nav class="flex flex-col lg:flex-row h-[30%] lg:h-[10%]">
-        <div class="wrapper">
+    <div className="h-screen">
+      <nav className="flex flex-col lg:flex-row h-[30%] lg:h-[10%]">
+        <div className="wrapper">
           <div>
-            <label for="input-rotate">Rotate</label>
+            <label htmlFor="input-rotate">Rotate</label>
             <input
               id="input-rotate"
               type="range"
-              class="range range-accent"
+              className="range range-accent"
               min="0"
               max="360"
               step="10"
-              // bind:value={shapeRotation}
-              // on:input={handleRotationChange}
+              value={rotate}
+              onChange={(e) => setRotate(e.target.value)}
             />
           </div>
           <div>
-            <label for="input-size">Size</label>
+            <label htmlFor="input-size">Size</label>
             <input
               id="input-size"
               type="range"
-              class="range range-accent"
+              className="range range-accent"
               min="10"
               max="210"
-              // on:input={handleSizeChange}
-              // bind:value={shapeSize}
+              onChange={(e) => setSize(e.target.value)}
+              value={size}
             />
           </div>
           <div>
-            <label for="input-opacity">Opacity</label>
+            <label htmlFor="input-opacity">Opacity</label>
             <input
               id="input-opacity"
               type="range"
-              class="range range-accent"
+              className="range range-accent"
               min="0"
               max="1"
               step="0.1"
-              // bind:value={shapeOpacity}
-              // on:input={handleOpacityChange}
+              value={opacity}
+              onChange={(e) => setOpacity(e.target.value)}
             />
           </div>
-          <div>
-            <label for="input-color">Color</label>
+          <div style={{ width: "100px" }}>
+            <label htmlFor="input-color">Color</label>
             <input
               id="input-color"
               type="color"
-              // bind:value={shapeColor}
-              // on:input={handleColorChange}
+              value={color}
+              onChange={(e) => setColor(e.target.value)}
+              style={{ width: "100%" }}
             />
           </div>
         </div>
-        <div class="flex flex-wrap gap-2">
-          <select
-            class="select text-black"
-            // bind:value={currentShape}
-            // on:change={(event) => (currentShape = event.target.value)}
-          >
-            <option>Circle</option>
-            <option>Rectangle</option>
-          </select>
-          <button class="btn btn-success">Add</button>
-          <button class="btn btn-error">Delete</button>
-
-          <button class="btn btn-secondary">Save Data</button>
-          <label for="file" class="btn">
-            Load Data
-          </label>
-          <input type="file" id="file" />
+        <div className="flex flex-wrap gap-2">
+          <Box sx={{ minWidth: 120 }}>
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Figure</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={figure}
+                label="Figure"
+                onChange={handleChange}
+              >
+                <MenuItem value="Circle">Circle</MenuItem>
+                <MenuItem value="Rectangle">Rectangle</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+          <Button variant="contained">Add</Button>
+          <Button variant="contained" color="error">
+            Delete
+          </Button>
+          <Button variant="contained" color="success">
+            Save
+          </Button>
+          <Button variant="contained" color="info">
+            Load
+          </Button>
         </div>
       </nav>
     </div>

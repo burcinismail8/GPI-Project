@@ -26,7 +26,7 @@ body {
   border-radius: 0.1em;
 }
 nav {
-  @apply p-5  bg-sky-700  flex justify-evenly text-white text-lg text-center items-center;
+  @apply p-5  bg-gray-300  flex justify-evenly text-white text-lg text-center items-center;
 }
 
 input[type="range"] {
@@ -50,7 +50,7 @@ input[type="color"]::-moz-color-swatch {
 }
 
 .wrapper div {
-  @apply flex flex-col items-center gap-2;
+  @apply flex flex-col items-center;
 }
 
 span {
