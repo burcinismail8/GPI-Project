@@ -5,7 +5,12 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import DoneIcon from "@mui/icons-material/Done";
 import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+const activeTagTypes = ["circle", "rect", "INPUT", "BUTTON"];
 function App() {
   const [figure, setFigure] = useState("Circle");
   const [rotate, setRotate] = useState(0);
@@ -14,6 +19,7 @@ function App() {
   const [color, setColor] = useState("#509bed");
   const [allCreatedFigures, setAllCreatedFigures] = useState([]);
   const [selectedFigure, setSelectedFigure] = useState({});
+  const [figureNewName, setFigureNewName] = useState();
   const handleChange = (event) => {
     setFigure(event.target.value);
   };
@@ -31,6 +37,8 @@ function App() {
       isEditing: false,
     };
     setAllCreatedFigures([...allCreatedFigures, newFigure]);
+    setSelectedFigure(newFigure);
+    setFigureNewName(newFigure.name);
   };
 
   const deleteFigure = () => {
@@ -41,13 +49,129 @@ function App() {
     }
     newArr.splice(i, 1);
     setAllCreatedFigures(newArr);
-    setSelectedFigure({});
+    setSelectedFigure(newArr[newArr.length - 1]);
+    toast.info("Successful operation!");
   };
 
+  const onFocusFigureName = (id) => {
+    const i = allCreatedFigures.findIndex((figure) => figure.id === id);
+    setSelectedFigure(allCreatedFigures[i]);
+    setFigureNewName(allCreatedFigures[i].name);
+  };
+  const handleNameChange = (id) => {
+    let newArr = allCreatedFigures.slice(0);
+    const i = allCreatedFigures.findIndex((figure) => figure.id === id);
+    let obj = newArr[i];
+
+    if (i === -1 || obj.name === figureNewName) {
+      return;
+    }
+
+    obj.name = figureNewName;
+    newArr.splice(i, 1, obj);
+    setAllCreatedFigures(newArr);
+    setFigureNewName("");
+    toast.success("Changed figure name successfully!");
+  };
+  const handleColorChange = (e) => {
+    setColor(e.target.value);
+
+    if (selectedFigure.id !== undefined) {
+      let newArr = allCreatedFigures.slice(0);
+      const i = allCreatedFigures.findIndex(
+        (figure) => figure.id === selectedFigure.id
+      );
+      let changedFigure = newArr[i];
+      changedFigure.color = e.target.value;
+      newArr.splice(i, 1, changedFigure);
+      setAllCreatedFigures(newArr);
+    }
+  };
+  const handleSizeChange = (e) => {
+    setSize(e.target.value);
+
+    if (selectedFigure.id !== undefined) {
+      let newArr = allCreatedFigures.slice(0);
+      const i = allCreatedFigures.findIndex(
+        (figure) => figure.id === selectedFigure.id
+      );
+      let changedFigure = newArr[i];
+      changedFigure.size = e.target.value;
+      newArr.splice(i, 1, changedFigure);
+      setAllCreatedFigures(newArr);
+    }
+  };
+  const handleRotateChange = (e) => {
+    setRotate(e.target.value);
+    if (selectedFigure.id !== undefined) {
+      let newArr = allCreatedFigures.slice(0);
+      const i = allCreatedFigures.findIndex(
+        (figure) => figure.id === selectedFigure.id
+      );
+      let changedFigure = newArr[i];
+      changedFigure.rotate = e.target.value;
+      newArr.splice(i, 1, changedFigure);
+      setAllCreatedFigures(newArr);
+    }
+  };
+  const handleOpacityChange = (e) => {
+    setOpacity(e.target.value);
+    if (selectedFigure.id !== undefined) {
+      let newArr = allCreatedFigures.slice(0);
+      const i = allCreatedFigures.findIndex(
+        (figure) => figure.id === selectedFigure.id
+      );
+      let changedFigure = newArr[i];
+      changedFigure.opacity = e.target.value;
+      newArr.splice(i, 1, changedFigure);
+      setAllCreatedFigures(newArr);
+    }
+  };
+  function downloadJSON() {
+    const json = JSON.stringify(allCreatedFigures);
+    const blob = new Blob([json], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "figuresJSON";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+  function loadJSON(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const json = JSON.parse(reader.result);
+      setAllCreatedFigures([...json]);
+    };
+
+    reader.readAsText(file);
+  }
   return (
-    <div className="h-screen">
+    <div
+      className="h-screen"
+      onClick={(e) => {
+        const i = activeTagTypes.findIndex((fig) => fig === e.target.tagName);
+        if (i === -1) {
+          setSelectedFigure({});
+        }
+      }}
+    >
       <nav className="flex flex-col lg:flex-row h-[30%] lg:h-[10%]">
         <div className="wrapper">
+          <div style={{ width: "100px" }}>
+            <label htmlFor="input-color">Color</label>
+            <input
+              id="input-color"
+              type="color"
+              value={color}
+              onChange={handleColorChange}
+              style={{ width: "100%" }}
+            />
+          </div>
           <div>
             <label htmlFor="input-rotate">Rotate</label>
             <input
@@ -58,7 +182,7 @@ function App() {
               max="360"
               step="10"
               value={rotate}
-              onChange={(e) => setRotate(e.target.value)}
+              onChange={handleRotateChange}
             />
           </div>
           <div>
@@ -69,7 +193,7 @@ function App() {
               className="range range-accent"
               min="10"
               max="210"
-              onChange={(e) => setSize(e.target.value)}
+              onChange={handleSizeChange}
               value={size}
             />
           </div>
@@ -83,17 +207,7 @@ function App() {
               max="1"
               step="0.1"
               value={opacity}
-              onChange={(e) => setOpacity(e.target.value)}
-            />
-          </div>
-          <div style={{ width: "100px" }}>
-            <label htmlFor="input-color">Color</label>
-            <input
-              id="input-color"
-              type="color"
-              value={color}
-              onChange={(e) => setColor(e.target.value)}
-              style={{ width: "100%" }}
+              onChange={handleOpacityChange}
             />
           </div>
         </div>
@@ -119,19 +233,36 @@ function App() {
           <Button variant="contained" color="error" onClick={deleteFigure}>
             Delete
           </Button>
-          <Button variant="contained" color="success">
+          <Button onClick={downloadJSON} variant="contained" color="success">
             Save
           </Button>
-          <Button variant="contained" color="info">
+
+          <label
+            for="file"
+            className="shadow-lg"
+            style={{
+              padding: "15px",
+              background: "#09aaab",
+              borderRadius: "5px",
+              textTransform: "uppercase",
+              fontSize: "15px",
+            }}
+          >
             Load
-          </Button>
+          </label>
+
+          <input
+            type="file"
+            id="file"
+            onChange={loadJSON}
+            style={{ display: "none" }}
+          />
         </div>
       </nav>
       <div className="flex justify-center h-[70%] lg:h-[90%]">
         <span className="w-[75%] lg:w-[90%]">
           <svg>
             {allCreatedFigures.map((currFigure) => {
-              console.log(selectedFigure.id === currFigure.id);
               if (currFigure.type === "Circle")
                 return (
                   <circle
@@ -147,6 +278,10 @@ function App() {
                     transform={`rotate(${currFigure.rotate} ${currFigure.x} ${currFigure.y})`}
                     onClick={() => {
                       setSelectedFigure(currFigure);
+                      setColor(currFigure.color);
+                      setSize(currFigure.size);
+                      setRotate(currFigure.rotate);
+                      setOpacity(currFigure.opacity);
                     }}
                     strokeWidth={currFigure.id === selectedFigure.id ? 2 : 0.5}
                   />
@@ -174,7 +309,53 @@ function App() {
             })}
           </svg>
         </span>
+        <aside className="h-full bg-primary w-[25%] lg:w-[10%] ml-auto overflow-y-auto text-left flex flex-col border-l-4 border-gray-300 bg-gray-300">
+          {allCreatedFigures.map((figure) => {
+            if (figure.id === selectedFigure.id) {
+              return (
+                <div
+                  key={figure.id}
+                  className="border-b-3 border-white bg-white flex"
+                >
+                  <input
+                    type="text"
+                    className="bg-transparent  text-gray-500 p-3 text-lg font-semibold w-[100%]"
+                    defaultValue={figure.name}
+                    onFocus={() => {
+                      onFocusFigureName(figure.id);
+                    }}
+                    onChange={(e) => setFigureNewName(e.target.value)}
+                  />
+                  <button
+                    className="m-3"
+                    onClick={() => handleNameChange(figure.id)}
+                  >
+                    <DoneIcon color="success" />
+                  </button>
+                </div>
+              );
+            } else {
+              return (
+                <div
+                  key={figure.id}
+                  className="border-b-3 border-white bg-gray-500 flex"
+                >
+                  <input
+                    type="text"
+                    className="bg-transparent text-white p-3 text-lg font-semibold w-[100%]"
+                    value={figure.name}
+                    onFocus={(e) => {
+                      onFocusFigureName(figure.id);
+                      setFigureNewName(e.target.value);
+                    }}
+                  />
+                </div>
+              );
+            }
+          })}
+        </aside>
       </div>
+      <ToastContainer />
     </div>
   );
 }
