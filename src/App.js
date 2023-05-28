@@ -9,7 +9,8 @@ import DoneIcon from "@mui/icons-material/Done";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import CustomSvgFigure from "./CustomSVG";
+import CustomSVGOne from "./CustomSVGOne";
+import CustomSvgTwo from "./CustomSVGTwo";
 
 const activeTagTypes = ["circle", "rect", "INPUT", "BUTTON"];
 function App() {
@@ -254,8 +255,10 @@ function App() {
                     strokeWidth={currFigure.id === selectedFigure.id ? 2 : 0.5}
                   />
                 );
-              } else {
-                return <CustomSvgFigure />;
+              } else if (currFigure.type === "Custom1"){
+                return <CustomSVGOne />;
+              }else if (currFigure.type === "Custom2"){
+                return <CustomSvgTwo />
               }
             })}
           </svg>
@@ -266,7 +269,7 @@ function App() {
               return (
                 <div
                   key={figure.id}
-                  className="border-b-3 border-white bg-white flex"
+                  className="flex bg-white border-white border-b-3"
                 >
                   <input
                     type="text"
@@ -289,7 +292,7 @@ function App() {
               return (
                 <div
                   key={figure.id}
-                  className="border-b-3 border-white bg-gray-500 flex"
+                  className="flex bg-gray-500 border-white border-b-3"
                 >
                   <input
                     type="text"
@@ -371,6 +374,7 @@ function App() {
                 <MenuItem value="Circle">Circle</MenuItem>
                 <MenuItem value="Rectangle">Rectangle</MenuItem>
                 <MenuItem value="Custom1">Custom1</MenuItem>
+                <MenuItem value="Custom2">Custom2 </MenuItem>
               </Select>
             </FormControl>
           </Box>

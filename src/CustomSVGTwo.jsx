@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 
-const CustomSvgFigure = () => {
+const CustomSvgTwo = () => {
   const circleRadius = 100;
   const lineLength = 100;
   const lineHeight = 200;
+  const lineGap = 20;
 
   const [isDragging, setIsDragging] = useState(false);
   const [position, setPosition] = useState({ x: 200, y: 200 });
@@ -30,6 +31,16 @@ const CustomSvgFigure = () => {
     setIsDragging(false);
   };
 
+  const line1X1 = position.x - lineLength / 2;
+  const line1Y1 = position.y - lineHeight / 2;
+  const line1X2 = position.x - lineLength / 2;
+  const line1Y2 = position.y + lineHeight / 2;
+
+  const line2X1 = position.x + lineLength / 2;
+  const line2Y1 = position.y - lineHeight / 2;
+  const line2X2 = position.x + lineLength / 2;
+  const line2Y2 = position.y + lineHeight / 2;
+
   return (
     <svg onMouseMove={drag} onMouseUp={stopDrag} onMouseLeave={stopDrag}>
       <circle
@@ -40,23 +51,22 @@ const CustomSvgFigure = () => {
         onMouseDown={startDrag}
       />
       <line
-        x1={position.x}
-        y1={position.y - lineHeight / 2}
-        x2={position.x}
-        y2={position.y + lineHeight / 2}
+        x1={line1X1}
+        y1={line1Y1}
+        x2={line1X2}
+        y2={line1Y2}
         stroke="black"
         strokeWidth="2"
       />
       <line
-        x1={position.x}
-        y1={position.y}
-        x2={position.x + lineLength}
-        y2={position.y}
+        x1={line2X1}
+        y1={line2Y1}
+        x2={line2X2}
+        y2={line2Y2}
         stroke="black"
         strokeWidth="2"
       />
     </svg>
   );
 };
-
-export default CustomSvgFigure;
+export default CustomSvgTwo;
