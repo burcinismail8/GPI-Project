@@ -255,10 +255,47 @@ function App() {
                     strokeWidth={currFigure.id === selectedFigure.id ? 2 : 0.5}
                   />
                 );
-              } else if (currFigure.type === "Custom1"){
-                return <CustomSVGOne />;
-              }else if (currFigure.type === "Custom2"){
-                return <CustomSvgTwo />
+              } else if (currFigure.type === "Custom1") {
+                return (
+                  <CustomSVGOne
+                    currFigure={currFigure}
+                    selectedFigure={selectedFigure}
+                    setSelectedFigure={setSelectedFigure}
+                    allCreatedFigures={allCreatedFigures}
+                    setAllCreatedFigures={setAllCreatedFigures}
+                    transform={`rotate(${currFigure.rotate} ${currFigure.x} ${currFigure.y})`}
+                    onClick={() => {
+                      setSelectedFigure(currFigure);
+                      setColor(currFigure.color);
+                      setSize(currFigure.size);
+                      setRotate(currFigure.rotate);
+                      setOpacity(currFigure.opacity);
+                      setPosition({ x: currFigure.x, y: currFigure.y });
+                    }}
+                    strokeWidth={currFigure.id === selectedFigure.id ? 2 : 0.5}
+                  />
+                );
+              } else if (currFigure.type === "Custom2") {
+                return (
+                  <CustomSvgTwo
+                    key={currFigure.id}
+                    currFigure={currFigure}
+                    selectedFigure={selectedFigure}
+                    setSelectedFigure={setSelectedFigure}
+                    allCreatedFigures={allCreatedFigures}
+                    setAllCreatedFigures={setAllCreatedFigures}
+                    transform={`rotate(${currFigure.rotate} ${currFigure.x} ${currFigure.y})`}
+                    onClick={() => {
+                      setSelectedFigure(currFigure);
+                      setColor(currFigure.color);
+                      setSize(currFigure.size);
+                      setRotate(currFigure.rotate);
+                      setOpacity(currFigure.opacity);
+                      setPosition({ x: currFigure.x, y: currFigure.y });
+                    }}
+                    strokeWidth={currFigure.id === selectedFigure.id ? 2 : 0.5}
+                  />
+                );
               }
             })}
           </svg>

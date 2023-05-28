@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 
-const CustomSvgTwo = () => {
-  const circleRadius = 100;
+const CustomSvgTwo = ({ currFigure, transform, onClick, strokeWidth }) => {
+  const circleRadius = currFigure.size;
   const lineLength = 100;
   const lineHeight = 200;
-  const lineGap = 20;
 
   const [isDragging, setIsDragging] = useState(false);
-  const [position, setPosition] = useState({ x: 200, y: 200 });
+  const [position, setPosition] = useState({
+    x: currFigure.x,
+    y: currFigure.y,
+  });
   const [offset, setOffset] = useState({ x: 0, y: 0 });
 
   const startDrag = (event) => {
@@ -42,13 +44,21 @@ const CustomSvgTwo = () => {
   const line2Y2 = position.y + lineHeight / 2;
 
   return (
-    <svg onMouseMove={drag} onMouseUp={stopDrag} onMouseLeave={stopDrag}>
+    <svg
+      onClick={onClick}
+      onMouseMove={drag}
+      onMouseUp={stopDrag}
+      onMouseLeave={stopDrag}
+      opacity={currFigure.opacity}
+      rotate={currFigure.rotate}
+    >
       <circle
         cx={position.x}
         cy={position.y}
         r={circleRadius}
-        fill="lightblue"
+        fill={currFigure.color}
         onMouseDown={startDrag}
+        strokeWidth={strokeWidth}
       />
       <line
         x1={line1X1}
