@@ -9,6 +9,7 @@ import DoneIcon from "@mui/icons-material/Done";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import CustomSvgFigure from "./CustomSVG";
 
 const activeTagTypes = ["circle", "rect", "INPUT", "BUTTON"];
 function App() {
@@ -253,6 +254,8 @@ function App() {
                     strokeWidth={currFigure.id === selectedFigure.id ? 2 : 0.5}
                   />
                 );
+              } else {
+                return <CustomSvgFigure />;
               }
             })}
           </svg>
