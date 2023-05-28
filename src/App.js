@@ -155,8 +155,6 @@ function App() {
   }
   const startDrag = (event) => {
     event.preventDefault();
-    console.log(selectedFigure, position);
-    console.log("started dragging");
     setIsDragging(true);
     setOffset({
       x: event.clientX - position.x,
@@ -168,7 +166,6 @@ function App() {
     if (isDragging && selectedFigure.id !== undefined) {
       const newPosX = event.clientX - offset.x;
       const newPosY = event.clientY - offset.y;
-      console.log(selectedFigure);
       let newArr = allCreatedFigures.slice(0);
       const i = allCreatedFigures.findIndex(
         (figure) => figure.id === selectedFigure.id
@@ -196,105 +193,6 @@ function App() {
         }
       }}
     >
-      <nav className="flex flex-col lg:flex-row h-[30%] lg:h-[10%]">
-        <div className="wrapper">
-          <div style={{ width: "100px" }}>
-            <label htmlFor="input-color">Color</label>
-            <input
-              id="input-color"
-              type="color"
-              value={color}
-              onChange={handleColorChange}
-              style={{ width: "100%" }}
-            />
-          </div>
-          <div>
-            <label htmlFor="input-rotate">Rotate</label>
-            <input
-              id="input-rotate"
-              type="range"
-              className="range range-accent"
-              min="0"
-              max="360"
-              step="10"
-              value={rotate}
-              onChange={handleRotateChange}
-            />
-          </div>
-          <div>
-            <label htmlFor="input-size">Size</label>
-            <input
-              id="input-size"
-              type="range"
-              className="range range-accent"
-              min="10"
-              max="210"
-              onChange={handleSizeChange}
-              value={size}
-            />
-          </div>
-          <div>
-            <label htmlFor="input-opacity">Opacity</label>
-            <input
-              id="input-opacity"
-              type="range"
-              className="range range-accent"
-              min="0"
-              max="1"
-              step="0.1"
-              value={opacity}
-              onChange={handleOpacityChange}
-            />
-          </div>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <Box sx={{ minWidth: 120 }}>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Figure</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={figure}
-                label="Figure"
-                onChange={handleChange}
-              >
-                <MenuItem value="Circle">Circle</MenuItem>
-                <MenuItem value="Rectangle">Rectangle</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
-          <Button variant="contained" onClick={addFigure}>
-            Add
-          </Button>
-          <Button variant="contained" color="error" onClick={deleteFigure}>
-            Delete
-          </Button>
-          <Button onClick={downloadJSON} variant="contained" color="success">
-            Save
-          </Button>
-
-          <label
-            for="file"
-            className="shadow-lg"
-            style={{
-              padding: "15px",
-              background: "#09aaab",
-              borderRadius: "5px",
-              textTransform: "uppercase",
-              fontSize: "15px",
-            }}
-          >
-            Load
-          </label>
-
-          <input
-            type="file"
-            id="file"
-            onChange={loadJSON}
-            style={{ display: "none" }}
-          />
-        </div>
-      </nav>
       <div className="flex justify-center h-[70%] lg:h-[90%]">
         <span className="w-[75%] lg:w-[90%]">
           <svg>
@@ -405,6 +303,105 @@ function App() {
           })}
         </aside>
       </div>
+      <nav className="flex flex-col lg:flex-row h-[30%] lg:h-[10%]">
+        <div className="wrapper">
+          <div style={{ width: "100px" }}>
+            <label htmlFor="input-color">Color</label>
+            <input
+              id="input-color"
+              type="color"
+              value={color}
+              onChange={handleColorChange}
+              style={{ width: "100%" }}
+            />
+          </div>
+          <div>
+            <label htmlFor="input-rotate">Rotate</label>
+            <input
+              id="input-rotate"
+              type="range"
+              className="range range-accent"
+              min="0"
+              max="360"
+              step="10"
+              value={rotate}
+              onChange={handleRotateChange}
+            />
+          </div>
+          <div>
+            <label htmlFor="input-size">Size</label>
+            <input
+              id="input-size"
+              type="range"
+              className="range range-accent"
+              min="10"
+              max="210"
+              onChange={handleSizeChange}
+              value={size}
+            />
+          </div>
+          <div>
+            <label htmlFor="input-opacity">Opacity</label>
+            <input
+              id="input-opacity"
+              type="range"
+              className="range range-accent"
+              min="0"
+              max="1"
+              step="0.1"
+              value={opacity}
+              onChange={handleOpacityChange}
+            />
+          </div>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <Box sx={{ minWidth: 120 }}>
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Figure</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={figure}
+                label="Figure"
+                onChange={handleChange}
+              >
+                <MenuItem value="Circle">Circle</MenuItem>
+                <MenuItem value="Rectangle">Rectangle</MenuItem>
+                <MenuItem value="Custom1">Custom1</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+          <Button variant="contained" onClick={addFigure}>
+            Add
+          </Button>
+          <Button variant="contained" color="error" onClick={deleteFigure}>
+            Delete
+          </Button>
+          <Button onClick={downloadJSON} variant="contained" color="success">
+            Save
+          </Button>
+
+          <label
+            for="file"
+            className="shadow-lg"
+            style={{
+              padding: "15px",
+              background: "#09aaab",
+              borderRadius: "5px",
+              textTransform: "uppercase",
+              fontSize: "15px",
+            }}
+          >
+            Load
+          </label>
+          <input
+            type="file"
+            id="file"
+            onChange={loadJSON}
+            style={{ display: "none" }}
+          />
+        </div>
+      </nav>
       <ToastContainer />
     </div>
   );

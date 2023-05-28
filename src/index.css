@@ -11,12 +11,6 @@ rect {
   stroke: black;
 }
 body {
-  background-image: linear-gradient(
-      to right,
-      rgb(223, 218, 218) 1px,
-      transparent 1px
-    ),
-    linear-gradient(to bottom, rgb(223, 218, 218) 1px, transparent 1px);
   background-size: 60px 60px;
 }
 
