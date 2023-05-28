@@ -20,6 +20,10 @@ function App() {
   const [allCreatedFigures, setAllCreatedFigures] = useState([]);
   const [selectedFigure, setSelectedFigure] = useState({});
   const [figureNewName, setFigureNewName] = useState();
+
+  const [isDragging, setIsDragging] = useState(false);
+  const [position, setPosition] = useState({ x: 100, y: 100 });
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
   const handleChange = (event) => {
     setFigure(event.target.value);
   };
@@ -50,7 +54,6 @@ function App() {
     newArr.splice(i, 1);
     setAllCreatedFigures(newArr);
     setSelectedFigure(newArr[newArr.length - 1]);
-    toast.info("Successful operation!");
   };
 
   const onFocusFigureName = (id) => {
@@ -150,6 +153,39 @@ function App() {
 
     reader.readAsText(file);
   }
+  const startDrag = (event) => {
+    event.preventDefault();
+    console.log(selectedFigure, position);
+    console.log("started dragging");
+    setIsDragging(true);
+    setOffset({
+      x: event.clientX - position.x,
+      y: event.clientY - position.y,
+    });
+  };
+
+  const drag = (event) => {
+    if (isDragging && selectedFigure.id !== undefined) {
+      const newPosX = event.clientX - offset.x;
+      const newPosY = event.clientY - offset.y;
+      console.log(selectedFigure);
+      let newArr = allCreatedFigures.slice(0);
+      const i = allCreatedFigures.findIndex(
+        (figure) => figure.id === selectedFigure.id
+      );
+
+      let changedFigure = newArr[i];
+      changedFigure.x = newPosX;
+      changedFigure.y = newPosY;
+
+      newArr.splice(i, 1, changedFigure);
+      setAllCreatedFigures(newArr);
+    }
+  };
+
+  const stopDrag = () => {
+    setIsDragging(false);
+  };
   return (
     <div
       className="h-screen"
@@ -276,12 +312,17 @@ function App() {
                     fill={currFigure.color}
                     opacity={currFigure.opacity}
                     transform={`rotate(${currFigure.rotate} ${currFigure.x} ${currFigure.y})`}
+                    onMouseDown={startDrag}
+                    onMouseMove={drag}
+                    onMouseUp={stopDrag}
+                    onMouseLeave={stopDrag}
                     onClick={() => {
                       setSelectedFigure(currFigure);
                       setColor(currFigure.color);
                       setSize(currFigure.size);
                       setRotate(currFigure.rotate);
                       setOpacity(currFigure.opacity);
+                      setPosition({ x: currFigure.x, y: currFigure.y });
                     }}
                     strokeWidth={currFigure.id === selectedFigure.id ? 2 : 0.5}
                   />
@@ -299,8 +340,17 @@ function App() {
                     fill={currFigure.color}
                     opacity={currFigure.opacity}
                     transform={`rotate(${currFigure.rotate} ${currFigure.x} ${currFigure.y})`}
+                    onMouseDown={startDrag}
+                    onMouseMove={drag}
+                    onMouseUp={stopDrag}
+                    onMouseLeave={stopDrag}
                     onClick={() => {
                       setSelectedFigure(currFigure);
+                      setColor(currFigure.color);
+                      setSize(currFigure.size);
+                      setRotate(currFigure.rotate);
+                      setOpacity(currFigure.opacity);
+                      setPosition({ x: currFigure.x, y: currFigure.y });
                     }}
                     strokeWidth={currFigure.id === selectedFigure.id ? 2 : 0.5}
                   />
