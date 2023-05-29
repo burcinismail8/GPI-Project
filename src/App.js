@@ -298,7 +298,36 @@ function App() {
                     strokeWidth={currFigure.id === selectedFigure.id ? 2 : 0.5}
                   />
                 );
-              } else {
+              } else if (currFigure.type === "Rectangle") {
+                return (
+                  <rect
+                    key={currFigure.id}
+                    id={currFigure.id}
+                    name={currFigure.name}
+                    x={currFigure.x}
+                    y={currFigure.y}
+                    height={currFigure.size}
+                    width={currFigure.size + 100}
+                    fill={currFigure.color}
+                    opacity={currFigure.opacity}
+                    transform={`rotate(${currFigure.rotate} ${currFigure.x} ${currFigure.y})`}
+                    onMouseDown={startDrag}
+                    onMouseMove={drag}
+                    onMouseUp={stopDrag}
+                    onMouseLeave={stopDrag}
+                    onClick={() => {
+                      setSelectedFigure(currFigure);
+                      setColor(currFigure.color);
+                      setSize(currFigure.size);
+                      setRotate(currFigure.rotate);
+                      setOpacity(currFigure.opacity);
+                      setPosition({ x: currFigure.x, y: currFigure.y });
+                    }}
+                    strokeWidth={currFigure.id === selectedFigure.id ? 2 : 0.5}
+                  />
+                );
+              } 
+              else {
                 return;
               }
             })}
@@ -319,6 +348,7 @@ function App() {
               >
                 <MenuItem value="Circle">Circle</MenuItem>
                 <MenuItem value="Square">Square</MenuItem>
+                <MenuItem value="Rectangle">Rectangle</MenuItem>
               </Select>
             </FormControl>
           </Box>
