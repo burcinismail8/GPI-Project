@@ -305,8 +305,23 @@ function App() {
           })}
         </aside>
       </div>
-      <nav className="flex flex-col lg:flex-row h-[30%] lg:h-[10%]">
+      <nav className="flex flex-col lg:flex-row h-[30%] lg:h-[13%]">
         <div className="wrapper">
+        <Box sx={{ minWidth: 120 }}>
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Figure</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={figure}
+                label="Figure"
+                onChange={handleChange}
+              >
+                <MenuItem value="Circle">Circle</MenuItem>
+                <MenuItem value="Rectangle">Rectangle</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
           <div style={{ width: "100px" }}>
             <label htmlFor="input-color">Color</label>
             <input
@@ -357,29 +372,15 @@ function App() {
           </div>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Box sx={{ minWidth: 120 }}>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Figure</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={figure}
-                label="Figure"
-                onChange={handleChange}
-              >
-                <MenuItem value="Circle">Circle</MenuItem>
-                <MenuItem value="Rectangle">Rectangle</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
+          
           <Button variant="contained" onClick={addFigure}>
-            Add
+            Add Figure
           </Button>
           <Button variant="contained" color="error" onClick={deleteFigure}>
-            Delete
+            Delete Figure
           </Button>
           <Button onClick={downloadJSON} variant="contained" color="success">
-            Save
+            Save File
           </Button>
 
           <label
@@ -393,7 +394,7 @@ function App() {
               fontSize: "15px",
             }}
           >
-            Load
+            Load File
           </label>
           <input
             type="file"
