@@ -9,8 +9,6 @@ import DoneIcon from "@mui/icons-material/Done";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import CustomSVGOne from "./CustomSVGOne";
-import CustomSvgTwo from "./CustomSVGTwo";
 
 const activeTagTypes = ["circle", "rect", "INPUT", "BUTTON"];
 function App() {
@@ -255,47 +253,8 @@ function App() {
                     strokeWidth={currFigure.id === selectedFigure.id ? 2 : 0.5}
                   />
                 );
-              } else if (currFigure.type === "Custom1") {
-                return (
-                  <CustomSVGOne
-                    currFigure={currFigure}
-                    selectedFigure={selectedFigure}
-                    setSelectedFigure={setSelectedFigure}
-                    allCreatedFigures={allCreatedFigures}
-                    setAllCreatedFigures={setAllCreatedFigures}
-                    transform={`rotate(${currFigure.rotate} ${currFigure.x} ${currFigure.y})`}
-                    onClick={() => {
-                      setSelectedFigure(currFigure);
-                      setColor(currFigure.color);
-                      setSize(currFigure.size);
-                      setRotate(currFigure.rotate);
-                      setOpacity(currFigure.opacity);
-                      setPosition({ x: currFigure.x, y: currFigure.y });
-                    }}
-                    strokeWidth={currFigure.id === selectedFigure.id ? 2 : 0.5}
-                  />
-                );
-              } else if (currFigure.type === "Custom2") {
-                return (
-                  <CustomSvgTwo
-                    key={currFigure.id}
-                    currFigure={currFigure}
-                    selectedFigure={selectedFigure}
-                    setSelectedFigure={setSelectedFigure}
-                    allCreatedFigures={allCreatedFigures}
-                    setAllCreatedFigures={setAllCreatedFigures}
-                    transform={`rotate(${currFigure.rotate} ${currFigure.x} ${currFigure.y})`}
-                    onClick={() => {
-                      setSelectedFigure(currFigure);
-                      setColor(currFigure.color);
-                      setSize(currFigure.size);
-                      setRotate(currFigure.rotate);
-                      setOpacity(currFigure.opacity);
-                      setPosition({ x: currFigure.x, y: currFigure.y });
-                    }}
-                    strokeWidth={currFigure.id === selectedFigure.id ? 2 : 0.5}
-                  />
-                );
+              } else {
+                return;
               }
             })}
           </svg>
@@ -410,8 +369,6 @@ function App() {
               >
                 <MenuItem value="Circle">Circle</MenuItem>
                 <MenuItem value="Rectangle">Rectangle</MenuItem>
-                <MenuItem value="Custom1">Custom1</MenuItem>
-                <MenuItem value="Custom2">Custom2 </MenuItem>
               </Select>
             </FormControl>
           </Box>
