@@ -194,6 +194,51 @@ function App() {
       }}
     >
       <div className="flex justify-center h-[70%] lg:h-[90%]">
+      <aside className="h-full bg-primary w-[25%] lg:w-[10%] ml-auto overflow-y-auto text-left flex flex-col border-l-4 border-gray-300 bg-gray-300">
+          {allCreatedFigures.map((figure) => {
+            if (figure.id === selectedFigure.id) {
+              return (
+                <div
+                  key={figure.id}
+                  className="flex bg-white border-white border-b-3"
+                >
+                  <input
+                    type="text"
+                    className="bg-transparent  text-gray-500 p-3 text-lg font-semibold w-[100%]"
+                    defaultValue={figure.name}
+                    onFocus={() => {
+                      onFocusFigureName(figure.id);
+                    }}
+                    onChange={(e) => setFigureNewName(e.target.value)}
+                  />
+                  <button
+                    className="m-3"
+                    onClick={() => handleNameChange(figure.id)}
+                  >
+                    <DoneIcon color="success" />
+                  </button>
+                </div>
+              );
+            } else {
+              return (
+                <div
+                  key={figure.id}
+                  className="flex bg-gray-500 border-white border-b-3"
+                >
+                  <input
+                    type="text"
+                    className="bg-transparent text-white p-3 text-lg font-semibold w-[100%]"
+                    value={figure.name}
+                    onFocus={(e) => {
+                      onFocusFigureName(figure.id);
+                      setFigureNewName(e.target.value);
+                    }}
+                  />
+                </div>
+              );
+            }
+          })}
+        </aside>
         <span className="w-[75%] lg:w-[90%]">
           <svg>
             {allCreatedFigures.map((currFigure) => {
@@ -259,51 +304,7 @@ function App() {
             })}
           </svg>
         </span>
-        <aside className="h-full bg-primary w-[25%] lg:w-[10%] ml-auto overflow-y-auto text-left flex flex-col border-l-4 border-gray-300 bg-gray-300">
-          {allCreatedFigures.map((figure) => {
-            if (figure.id === selectedFigure.id) {
-              return (
-                <div
-                  key={figure.id}
-                  className="flex bg-white border-white border-b-3"
-                >
-                  <input
-                    type="text"
-                    className="bg-transparent  text-gray-500 p-3 text-lg font-semibold w-[100%]"
-                    defaultValue={figure.name}
-                    onFocus={() => {
-                      onFocusFigureName(figure.id);
-                    }}
-                    onChange={(e) => setFigureNewName(e.target.value)}
-                  />
-                  <button
-                    className="m-3"
-                    onClick={() => handleNameChange(figure.id)}
-                  >
-                    <DoneIcon color="success" />
-                  </button>
-                </div>
-              );
-            } else {
-              return (
-                <div
-                  key={figure.id}
-                  className="flex bg-gray-500 border-white border-b-3"
-                >
-                  <input
-                    type="text"
-                    className="bg-transparent text-white p-3 text-lg font-semibold w-[100%]"
-                    value={figure.name}
-                    onFocus={(e) => {
-                      onFocusFigureName(figure.id);
-                      setFigureNewName(e.target.value);
-                    }}
-                  />
-                </div>
-              );
-            }
-          })}
-        </aside>
+       
       </div>
       <nav className="flex flex-col lg:flex-row h-[30%] lg:h-[13%]">
         <div className="wrapper">
