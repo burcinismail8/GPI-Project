@@ -362,19 +362,7 @@ function App() {
               style={{ width: "100%" }}
             />
           </div>
-          <div>
-            <label htmlFor="input-rotate">Rotate</label>
-            <input
-              id="input-rotate"
-              type="range"
-              className="range range-accent"
-              min="0"
-              max="360"
-              step="10"
-              value={rotate}
-              onChange={handleRotateChange}
-            />
-          </div>
+          
           <div>
             <label htmlFor="input-size">Size</label>
             <input
@@ -398,6 +386,19 @@ function App() {
               step="0.1"
               value={opacity}
               onChange={handleOpacityChange}
+            />
+          </div>
+          <div>
+            <label htmlFor="input-rotate">Rotate</label>
+            <input
+              id="input-rotate"
+              type="range"
+              className="range range-accent"
+              min="0"
+              max="360"
+              step="10"
+              value={rotate}
+              onChange={handleRotateChange}
             />
           </div>
         </div>
