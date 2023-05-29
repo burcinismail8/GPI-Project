@@ -194,7 +194,7 @@ function App() {
       }}
     >
       <div className="flex justify-center h-[70%] lg:h-[90%]">
-      <aside className="h-full bg-primary w-[25%] lg:w-[10%] ml-auto overflow-y-auto text-left flex flex-col border-l-4 border-gray-300 bg-gray-300">
+        <aside className="h-full bg-primary w-[25%] lg:w-[10%] ml-auto overflow-y-auto text-left flex flex-col border-gray-300 bg-gray-300">
           {allCreatedFigures.map((figure) => {
             if (figure.id === selectedFigure.id) {
               return (
@@ -270,7 +270,7 @@ function App() {
                     strokeWidth={currFigure.id === selectedFigure.id ? 2 : 0.5}
                   />
                 );
-              else if (currFigure.type === "Rectangle") {
+              else if (currFigure.type === "Square") {
                 return (
                   <rect
                     key={currFigure.id}
@@ -304,11 +304,10 @@ function App() {
             })}
           </svg>
         </span>
-       
       </div>
       <nav className="flex flex-col lg:flex-row h-[30%] lg:h-[13%]">
         <div className="wrapper">
-        <Box sx={{ minWidth: 120 }}>
+          <Box sx={{ minWidth: 120 }}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Figure</InputLabel>
               <Select
@@ -319,7 +318,7 @@ function App() {
                 onChange={handleChange}
               >
                 <MenuItem value="Circle">Circle</MenuItem>
-                <MenuItem value="Rectangle">Rectangle</MenuItem>
+                <MenuItem value="Square">Square</MenuItem>
               </Select>
             </FormControl>
           </Box>
@@ -373,7 +372,6 @@ function App() {
           </div>
         </div>
         <div className="flex flex-wrap gap-2">
-          
           <Button variant="contained" onClick={addFigure}>
             Add Figure
           </Button>
